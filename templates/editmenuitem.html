@@ -1,0 +1,48 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider green">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="text-center">
+			<h2>Edit Menu Item</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-1 padding-top">
+			<form action="#" method = "post">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="100" class="form-control" name="name" value="{{item.name }}">
+
+					<label for="description">Description:</label>
+					<textarea class="form-control" maxlength="250" rows="3" name="description">{{item.description}}</textarea>
+
+					<label for="price">Price:</label>
+					<div class="input-group">
+						<div class="input-group-addon">$</div>
+						<input type ="text" maxlength="10" class="form-control" name="price" value="{{item.price}}">
+					</div>
+
+					<label for="catalog_choice">Catalog:</label><br>
+					<select id="catalog_choice" name="catalog_choice">
+					<div class="dropdown-selector">
+						{% for i in catalogs %}
+							<option value="{{ i.id }}" {%if item.catalog_id == i.id%}selected{%endif%}> {{ i.name }}
+						{% endfor %}
+					</div>
+					</select>
+
+					<br></br>
+
+					<button type="submit" class="btn btn-default" id="submit" type="submit">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Save</button>
+
+					<a href = '{{url_for('showCatalogs')}}'>Cancel</a>
+
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

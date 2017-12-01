@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="text-center">
+  <h2>{{ item.name }}</h2>
+  <h3>Description: {{ item.description }}</h3>
+  <h4>Created date: {{ item.created_date }}</h4>
+  <h3><a href='{{url_for('editMenuItem', catalog_name = catalog.name, menu_name=item.name ) }}'>Edit</a> |
+  <a href='{{url_for('deleteMenuItem', catalog_name = catalog.name, menu_name=item.name ) }}'>Delete</a></h3>
+</div>
+{% endblock %}

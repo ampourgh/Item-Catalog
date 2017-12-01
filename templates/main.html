@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Catalog</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/styles.css?q=9300151349709492197808" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+  <header>
+    <div class="row">
+      <div class="grid-50">
+        <h1><a href="{{ url_for('showCatalogs')}}"><img src="/static/img/folder.png" class="folder" title="Home"></a>
+        Catalog</h1>
+      </div>
+
+      <div class="grid-50 align-right">
+        {%if 'username' in session %}
+          <img src="{{ session.picture }}" class="icon-logo">
+          {% if session.username != '' %}
+            Welcome, <a href="{{ url_for('showUser')}}" class="header">{{ session.username }}</a><br>
+          {% else %}
+            Welcome, <a href="{{ url_for('showUser')}}" class="header">{{ session.email }}</a><br>
+          {% endif %}
+        {% endif %}
+          <!-- Log in/Log out -->
+    			{%if 'username' not in session %}
+      			<a href="{{url_for('showLogin')}}" class="header">Login</a>
+    			{% else %}
+      			<a href="{{url_for('disconnect')}}" class="header">Logout</a>
+    			{% endif %}
+      </div>
+    </header>
+
+    <div class="footer-section-space"></span>
+
+    <section>
+      <div class="row">
+        <div class="main">
+    			{% block content %}
+    			{% endblock %}
+    		</div>
+    	</div>
+  </section>
+  </div>
+
+  <footer class="footer-centered">
+    <p class="footer-text">Created by ampourgh</p>
+  </footer>
+
+</body>
+</html>

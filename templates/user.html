@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="row banner menu">
+  <div class="text-center"><h2>{{ session.username}}</h2></div>
+  <img src="{{ session.picture }}" class="avatar-size">
+
+  <br>
+
+  <div class="catalogs">
+    <h2>Catalogs published:</h2>
+    {% for catalog in catalogs %}
+      {% if catalog.user.name == session.username %}
+        <a href = "{{url_for('showMenu', catalog_name = catalog.name)}}">
+          <h3>{{catalog.name}}</h3>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div class="items">
+    <h2>Latest Items</h2>
+    {% if items !=[] %}
+      {% for i in items %}
+        {% if i.user.name == session.username %}
+          <div class="menu-item">
+            <a href='{{url_for('itemDescription', catalog_name=i.catalog.name, menu_name = i.name) }}'>
+              <h3>{{i.name}} ({{i.catalog.name}})</h3>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

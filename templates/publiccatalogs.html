@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="row banner menu">
+	<div class = 'flash'>
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+
+				<ul>
+				{% for message in messages %}
+						<li> <strong> {{ message }} </strong> </li>
+				{% endfor %}
+				</ul>
+				{% endif %}
+		{% endwith %}
+
+	</div>
+
+	<div class="catalogs">
+		<h2>Categories</h2>
+		{% for catalog in catalogs %}
+			<a href = "{{url_for('showMenu', catalog_name = catalog.name)}}">
+				<h3>{{catalog.name}}</h3>
+			</a>
+		{% endfor %}
+	</div>
+
+	{% if items !=[] %}
+			<div class="items">
+				<h2>Latest Items</h2>
+					{% for i in items %}
+							<div class="menu-item">
+								<a href='{{url_for('itemDescription', catalog_name=i.catalog.name, menu_name = i.name) }}'>
+									<h3>{{i.name}} ({{i.catalog.name}})</h3>
+								</a>
+							</div>
+					{% endfor %}
+				</div>
+	{% endif %}
+{% endblock %}

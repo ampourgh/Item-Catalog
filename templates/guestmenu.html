@@ -1,0 +1,63 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<div class="dropdown">
+				<button class="dropbtn"><img src="/static/img/options.png" class="options"></button>
+				<div class="dropdown-content">
+					<a href="{{url_for('showCatalogs')}}">Home</a>
+				</div>
+			</div>
+		</div>
+
+<div class = 'flash'>
+		{% with messages = get_flashed_messages() %}
+      {% if messages %}
+
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+		<div class="catalogs">
+			<h2>Categories</h2>
+				{% for acatalog in catalogs %}
+					{% if acatalog.name == catalog.name %}
+						<a href = '{{url_for('showMenu', catalog_name = acatalog.name)}}'>
+							<div class="marked">
+								<h2> {{acatalog.name}}</h2>
+								<div class="creator">
+									<img src="{{ creator.picture }}" class="creator-logo" title="Created by {{ creator.name }}">
+								</div>
+							</div>
+					  </a>
+					{% else %}
+						<a href = '{{url_for('showMenu', catalog_name = acatalog.name)}}'>
+							<div class="notmarked"><h3>{{acatalog.name}}</h3></div>
+						</a>
+					{% endif %}
+				{% endfor %}
+		</div>
+
+
+		{% if items !=[] %}
+				<div class="items">
+					<h2>{{ catalog.name}}'s Items</h2>
+						{% for i in items %}
+								<div class="menu-item">
+									<a href='{{url_for('itemDescription', catalog_name=catalog.name, menu_name=i.name) }}'>
+										<h3>{{i.name}}</h3>
+									</a>
+								</div>
+						{% endfor %}
+		{% endif %}
+
+{% endblock %}
