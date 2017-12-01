@@ -1,60 +1,93 @@
-# OAuth2.0
-Starter Code for Auth&amp;Auth course
-# Installing the Vagrant VM for ud330 - Authentication & Authorization
+#### Author: ampourgh | Version: 1.0.0 | Last Modified: 7/29/2017
 
-**Note: If you already have a vagrant machine installed from previous Udacity courses skip to the 'Fetch the Source Code and VM Configuration' section**
+# Project 4 — Item Catalog
 
-In Lessons 2,3 and 4 of this course, you'll use a virtual machine (VM) to run a web server and a web app that uses it. The VM is a Linux system that runs on top of your own machine.  You can share files easily between your computer and the VM.
+## Getting Started
 
-We're using the Vagrant software to configure and manage the VM. Here are the tools you'll need to install to get it running:
+### Prerequisites
+Project functions with the following:
+* Git (version 2.13.0.windows.1) - command line used
+* Python (3.61) - used to run Python's code
+* Vagrant (1.9.5) - Used for displaying and querying database. Once installed from vagrantup's website, use vagrant --version in git to check if vagrant is running
+* Oracle's VM VirtualBox Manager (5.1.22) - for running vagrant]
+* Python files import Flask (0.12.2), SQLalchemy, oauth2client, JSON, requests, and httplib frameworks and libraries in Python
 
-### Git
+### Files included
+* Vagrantfile - used for running vagrant and VirtualBox
+* database_setup.py - sets up table classes using SQLalchemy, with User, Catalog and MenuItem tables, each with their own variables and foreign keys connected with each other
+* project.py - the Flask and oauthclient section that establishes how the tables function within each webpage
+* client_secrets.json - contains a table of authorization information in order to use gmail's login
+* static folder - which contains the img and css folders
+* templates - contains the html templates, which function with Jinja2 to do basic Python loops and conditions, along with connecting with project.py
 
-If you don't already have Git installed, [download Git from git-scm.com.](http://git-scm.com/downloads) Install the version for your operating system.
+### Installing
+1. Fork the catalog folder.
+2. Copy the link of the fork.
+3. In Git, use the clone command as so: git clone <forked url> <folder name>
 
-On Windows, Git will provide you with a Unix-style terminal and shell (Git Bash).  
-(On Mac or Linux systems you can use the regular terminal program.)
+### Running tests
+1. Through Git Bash, navigate to the Vagrantfile which is inside what the forked folder was called.
+2. 'Vagrant Up' to get VM VirtualBox running.
+3. 'Vagrant SSH' to log in.
+4. Use the command 'cd /vagrant' to move out of home/vagrant to the vagrant folder that holds the files
+5. Install pip in order to install the requirements of the Catalog app.
+```
+sudo apt-get -y install python3-pip python3-
+```
+7. Pip install all the imported frameworks and libraries in project.py and database_setup.p. Requirements.txt includes Flask, SQLAlchemy, psycopg2, requests, oauth2client and httplib2.
+```
+sudo pip3 install -r requirements.tx
+```
+8. Compile database_setup.py to set up archive.db, which contains the database information.
+```
+python database_setup.py
+```
+9. Compile project.py to get webpage running (which can be found at localhost:5000)
+```
+python project.py
+```
 
-You will need Git to install the configuration for the VM. If you'd like to learn more about Git, [take a look at our course about Git and Github](http://www.udacity.com/course/ud775).
+#### How to modify database_setup.py
 
-### VirtualBox
+The webpage has 3 table classes, 2 of which are serialized to be read as a JSON file. The name of function for the example below is className, with the table name as class_name, with the variable id acting as the unique primary key. Additional variables can be added as integors, strings, datetime, etc. Foreign key and relationship keys can also be added to connect the tables, making information retrieval viable.
 
-VirtualBox is the software that actually runs the VM. [You can download it from virtualbox.org, here.](https://www.virtualbox.org/wiki/Downloads)  Install the *platform package* for your operating system.  You do not need the extension pack or the SDK. You do not need to launch VirtualBox after installing it.
+```python
+class className(Base):
+    __tablename__ = 'class_name'
 
-**Ubuntu 14.04 Note:** If you are running Ubuntu 14.04, install VirtualBox using the Ubuntu Software Center, not the virtualbox.org web site. Due to a [reported bug](http://ubuntuforums.org/showthread.php?t=2227131), installing VirtualBox from the site may uninstall other software you need.
+    id = Column(Integer, primary_key=True)
 
-### Vagrant
+        @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+          'id': self.id,
+        }
+```
 
-Vagrant is the software that configures the VM and lets you share files between your host computer and the VM's filesystem.  [You can download it from vagrantup.com.](https://www.vagrantup.com/downloads) Install the version for your operating system.
+This is the section where archive.db is named and created when running database_setup.py.
+```python
+engine = create_engine('sqlite:///archive.db')
+```
 
-**Windows Note:** The Installer may ask you to grant network permissions to Vagrant or make a firewall exception. Be sure to allow this.
+#### How to modify project.py
 
-## Fetch the Source Code and VM Configuration
+There are a number of functions in project.py, either for the login, rendering the webpage with the database information, or storing/modifying information with the POST CRUD functionality. The basic building block of a web rendering function is below. The first line routes to the extension localhost will store the webpage, with the function name being how webpages are linked. The render template stores the webpage name, which will be located in templates, with variables used on the page coming after.
 
-**Windows:** Use the Git Bash program (installed with Git) to get a Unix-style terminal.  
-**Other systems:** Use your favorite terminal program.
+```python
+@app.route('/')
+def webpageFunctionName():
 
-From the terminal, run:
+  return render_template('.html', variable=variable)
+```
 
-    git clone https://github.com/udacity/OAuth2.0 oauth
+#### How to modify project.py
 
-This will give you a directory named **oauth** complete with the source code for the flask application, a vagrantfile, and a bootstrap.sh file for installing all of the necessary tools.
+The function can be as so in an html page, directing to project.py, along with variables drawn from the page. Variables are usually inherited in cases where the former webpage has useful information to creating the next page.
 
-## Run the virtual machine!
+```python
+<a href='{{url_for('webpageFunctionName', variable = variable) }}'>
+```
 
-Using the terminal, change directory to oauth (**cd oauth**), then type **vagrant up** to launch your virtual machine.
-
-
-## Running the Restaurant Menu App
-Once it is up and running, type **vagrant ssh**. This will log your terminal into the virtual machine, and you'll get a Linux shell prompt. When you want to log out, type **exit** at the shell prompt.  To turn the virtual machine off (without deleting anything), type **vagrant halt**. If you do this, you'll need to run **vagrant up** again before you can log into it.
-
-
-Now that you have Vagrant up and running type **vagrant ssh** to log into your VM.  change to the /vagrant directory by typing **cd /vagrant**. This will take you to the shared folder between your virtual machine and host machine.
-
-Type **ls** to ensure that you are inside the directory that contains project.py, database_setup.py, and two directories named 'templates' and 'static'
-
-Now type **python database_setup.py** to initialize the database.
-
-Type **python lotsofmenus.py** to populate the database with restaurants and menu items. (Optional)
-
-Type **python project.py** to run the Flask web server. In your browser visit **http://localhost:5000** to view the restaurant menu app.  You should be able to view, add, edit, and delete menu items and restaurants.
+### Acknowledgments
+Used tutorials from Udacity, w3schools, Treehouse and MDN for putting together the Flask code and CSS structure; including table, footer and dropdown.
