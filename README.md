@@ -90,4 +90,4 @@ The function can be as so in an html page, directing to project.py, along with v
 ```
 
 ### Acknowledgments
-Used tutorials from Udemy's React tutorial on how to use the YouTube API to filter videos, w3schools for CSS features such as the dropdown menu and footer design features, royalty free images for the visual content on the webpage, along with royalty free Restaurant websites to get an idea of design decisions to create a restaurant.
+Used tutorials from Udacity, w3schools, Treehouse and MDN for putting together the Flask code and CSS structure; including table, footer and dropdown.
